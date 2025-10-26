@@ -1,17 +1,19 @@
 export default async function handler(req, res) {
-  // CORS erlauben – damit Shopify den Server ansprechen darf
+  // --- CORS fix für Shopify ---
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
+  // Preflight Request beantworten
   if (req.method === "OPTIONS") {
-    // Browser schickt zuerst einen „Preflight Request“, den beantworten wir hier
     return res.status(200).end();
   }
 
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+  // Nur POST zulassen
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
   }
+
 
 
 const systemPrompt = [
@@ -87,5 +89,6 @@ const systemPrompt = [
     });
   }
 }
+
 
 
